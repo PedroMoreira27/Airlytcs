@@ -7,6 +7,7 @@ dotenv.config(); // Carrega as variáveis de ambiente do .env
 
 const readingsRouter = require('./routes/routes'); // Ajuste o caminho conforme necessário
 const userRoutes = require('./routes/userRoutes'); // Importa as rotas de usuário
+const statisticsRoutes = require('./routes/statisticsRoutes'); // Ajuste conforme o caminho do seu arquivo
 
 const app = express();
 const mongoDB = process.env.MONGODB_URI; // Carregando a URI do .env
@@ -18,8 +19,10 @@ mongoose
   .catch((err) => console.error('Erro ao conectar ao MongoDB:', err));
 
 app.use(bodyParser.json());
-app.use('/readings', readingsRouter); // Prefixo das rotas
+app.use('/readings', readingsRouter); // Prefixo das rotas de leituras
 app.use('/users', userRoutes); // Prefixo das rotas de usuário
+app.use('/statistics', statisticsRoutes); // Prefixo das rotas de estatísticas
+
 app.get('/', (req, res) => {
   res.send('success');
 });
