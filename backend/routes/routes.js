@@ -1,6 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const router = express.Router();
 const readingController = require('../controller/controller');
+
+router.use(
+  cors({
+    origin: '*',
+  }),
+);
 
 // Rota para criar uma nova leitura
 router.post('/', readingController.createReading);
