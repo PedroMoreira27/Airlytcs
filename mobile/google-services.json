@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "613202096437",
+    "project_id": "airlytcs",
+    "storage_bucket": "airlytcs.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613202096437:android:c751050819769797bfdc7c",
+        "android_client_info": {
+          "package_name": "com.mobileAirlytcs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDYm7UkJO2qRTi-JADcbfS8J7FJtoyLLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
