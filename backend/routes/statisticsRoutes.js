@@ -3,7 +3,7 @@ const router = express.Router();
 const statisticsController = require('../controller/statisticsController');
 
 // Rota para calcular as estatísticas
-router.post('/calculate-statistics', async (req, res) => {
+router.post('/calculate', async (req, res) => {
     try {
         // A função `calculateStatistics` já irá enviar a resposta, então não é necessário fazer isso aqui
         await statisticsController.calculateStatistics(req, res);
@@ -14,6 +14,6 @@ router.post('/calculate-statistics', async (req, res) => {
 });
 
 // Rota para obter as estatísticas calculadas
-router.get('/statistics', statisticsController.getStatistics);
+router.get('/', statisticsController.getStatistics);
 
 module.exports = router;
