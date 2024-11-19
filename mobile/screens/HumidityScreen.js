@@ -9,34 +9,44 @@ export default function HumidityScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
-        <Text style={styles.text}>Average Humidity: {averageHumidity}%</Text>
-        <Text style={styles.text}>Median Humidity: {medianHumidity}%</Text>
+        <View style={[styles.textContainer, { backgroundColor: '#E0F7FA', borderColor: 'deepskyblue' }]}>
+          <Text style={styles.text}>Media Humidade: {averageHumidity}%</Text>
+        </View>
+        <View style={[styles.textContainer, { backgroundColor: '#E0F7FA', borderColor: 'deepskyblue' }]}>
+          <Text style={styles.text}>Humidade Mediana: {medianHumidity}%</Text>
+        </View>
 
-        <Text style={styles.title}>Humidity Over Time</Text>
+
+        <Text style={styles.title}>Humidade pelo tempo</Text>
         <LineChart
           data={data.map((item, index) => ({
             value: item.humidity,
-            label: `H${index + 1}`
+            label: `H${index + 1}`,
           }))}
           height={200}
           color="deepskyblue"
           lineThickness={2}
         />
 
-        <Text style={styles.title}>Humidity Standard Deviation</Text>
+        <Text style={styles.title}>Humidade deviante padrão</Text>
         <BarChart
-          data={[{ value: 11.79, label: 'SD', color: 'blue' }]} 
+          data={[{ value: 11.79, color: 'deepskyblue' }]}
           height={150}
           barWidth={30}
         />
 
-        <Text style={styles.text}>Skewness: -0.76</Text>
-        <Text style={styles.text}>Kurtosis: 5.32</Text>
-
-        <Button
-          title="Go to Temperature"
-          onPress={() => navigation.navigate('Temperature')}
-        />
+        <View style={styles.buttons}>
+          <Button 
+            style={styles.button}
+            title="Temperatura"
+            onPress={() => navigation.navigate('Temperature')}
+          />
+          <Button
+            style={styles.button}
+            title="Home"
+            onPress={() => navigation.navigate('Home')}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -47,8 +57,25 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#E0F7FA',
   },
-  text: { fontSize: 16, marginVertical: 4 },
+  textContainer: {
+    borderWidth: 2,
+    borderRadius: 8,
+    padding: 10,
+    marginVertical: 4,
+    width: '90%',
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '50%',
+    marginTop: 16,
+  },
+  button: {
+    backgroundColor: 'black',
+    borderRadius: 8, 
+  },
+  text: { fontSize: 16 },
   title: { fontSize: 18, fontWeight: 'bold', marginVertical: 8 },
 });

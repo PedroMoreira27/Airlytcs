@@ -19,7 +19,7 @@ const Login = ({ navigation }) => {
     }
     try {
       const response = await fetch(
-        'https://airlytcs-backend.onrender.com:5000/users/login',
+        'https://airlytcs-backend.onrender.com/users/login',
         {
           method: 'POST',
           headers: {
@@ -31,7 +31,7 @@ const Login = ({ navigation }) => {
       const data = await response.json();
       console.log(data);
       if (data.message === 'Login bem-sucedido!') {
-        navigation.navigate('Humidity');
+        navigation.navigate('Home');
       } else {
         alert('Credenciais inválidas');
       }
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   link: {
-    color: '#0000ff',
+    color: '#000000',
     textDecorationLine: 'underline',
   },
 });

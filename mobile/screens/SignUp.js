@@ -30,7 +30,7 @@ const SignUp = ({ navigation }) => {
     }
     try {
       const response = await fetch(
-        'https://airlytcs-backend.onrender.com:5000/users/register',
+        'https://airlytcs-backend.onrender.com/users/register',
         {
           method: 'POST',
           headers: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   link: {
-    color: '#0000ff',
+    color: '#000000',
     textDecorationLine: 'underline',
   },
 });

@@ -5,6 +5,7 @@ import TemperatureScreen from './screens/TemperatureScreen';
 import HumidityScreen from './screens/HumidityScreen';
 import SignUp from './screens/SignUp';
 import Login from './screens/Login';
+import Home from './screens/HomeScreen';
 import useFetchReadings from './hooks/useFetchReadings';
 
 export const DataContext = createContext();
@@ -12,7 +13,7 @@ export const DataContext = createContext();
 const Stack = createStackNavigator();
 
 export default function App() {
-  const url = 'https://airlytcs-backend.onrender.com:5000/readings';
+  const url = 'https://airlytcs-backend.onrender.com/readings';
   const { data, averageTemp, medianTemp, averageHumidity, medianHumidity } =
     useFetchReadings(url);
 
@@ -32,6 +33,7 @@ export default function App() {
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Temperature" component={TemperatureScreen} />
           <Stack.Screen name="Humidity" component={HumidityScreen} />
+          <Stack.Screen name="Home" component={Home} />
         </Stack.Navigator>
       </NavigationContainer>
     </DataContext.Provider>
