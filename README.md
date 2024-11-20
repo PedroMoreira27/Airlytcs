@@ -1,34 +1,91 @@
-# Airlytics
-Airlytics é uma solução IoT para monitorar dados ambientais como temperatura, umidade e CO2. A aplicação coleta e exibe informações em tempo real em um painel interativo, com estatísticas e histórico. Utiliza React native no front-end, Node.js no back-end, e dispositivos IoT para captura de dados.
+# Airlytics - Solução IoT para Monitoramento Ambiental
 
-## Paleta de Cores
+Airlytics é uma solução IoT para monitorar dados ambientais como temperatura e umidade. A aplicação coleta e exibe informações em tempo real em um painel interativo, com estatísticas e histórico. O sistema é composto por três módulos principais: Back-End, IoT e Front-End/Mobile.
 
-### Azul Petróleo (#264653)
-- **Uso**: Cor principal para o fundo de gráficos, menus e seções principais.
-- **Razão**: Tons de azul transmitem confiança e tecnologia, além de terem uma associação com elementos como ar e água, relacionados ao monitoramento ambiental.
+## Estrutura do Projeto
 
-### Cinza Claro (#E9ECEF)
-- **Uso**: Fundo geral da interface (fora dos gráficos e elementos principais), separadores, e áreas de menor destaque.
-- **Razão**: Ajuda a manter a interface leve e limpa, criando contraste com os elementos principais.
+- **Back-End**: Responsável pela API que processa e fornece os dados, incluindo cálculos estatísticos como média, mediana, moda, desvio padrão, assimetria, curtose, projeção futura e probabilidade.
+- **IoT**: Coleta os dados ambientais usando dispositivos IoT.
+- **Mobile/Front-End**: Interface interativa onde os usuários podem visualizar os dados em tempo real.
 
-### Verde Menta (#2A9D8F)
-- **Uso**: Destaques para dados de “umidade” ou indicadores de status positivo (como ícones de "tudo normal").
-- **Razão**: O verde é uma cor associada à natureza e ao equilíbrio, adequada para representar dados relacionados ao meio ambiente e status saudáveis.
+## Tecnologias Utilizadas
 
-### Laranja Suave (#E9C46A)
-- **Uso**: Indicadores de “temperatura” ou alertas leves.
-- **Razão**: O laranja tem uma associação com calor e energia, sendo ideal para destacar dados relacionados a temperatura ou mudanças perceptíveis no ambiente.
+- **Front-End/Mobile**: React Native, Expo
+- **Back-End**: Node.js
+- **IoT**: Dispositivos IoT para captura de dados (temperatura e umidade)
+- **Banco de Dados**: MongoDB
 
-### Vermelho Coral (#F4A261)
-- **Uso**: Alertas de CO2 elevados ou avisos críticos no sistema.
-- **Razão**: O vermelho tem um forte impacto visual e é perfeito para chamar a atenção do usuário em casos críticos, como níveis de CO2 elevados.
+## Cálculos Estatísticos Realizados no Back-End
 
-### Branco (#FFFFFF)
-- **Uso**: Texto principal, ícones, e gráficos em áreas escuras.
-- **Razão**: O branco cria um forte contraste contra o fundo azul petróleo ou verde, facilitando a leitura e melhorando a acessibilidade.
+O Back-End realiza cálculos estatísticos com os dados coletados dos sensores de temperatura e umidade, incluindo:
 
-## Exemplo de Aplicação
+- **Temperatura**:
+  - Média
+  - Mediana
+  - Moda
+  - Desvio Padrão
+  - Assimetria
+  - Curtose
+  - Projeção Futura (próxima previsão)
+  - Probabilidade
+  - Distribuição
 
-- **Tela de login**: Fundo em azul petróleo com campos de input e botões em branco, criando um contraste elegante.
-- **Dashboard**: Fundo cinza claro com seções destacadas em azul petróleo. Gráficos usando verde para umidade, laranja para temperatura, e vermelho para CO2, todos sobre um fundo claro.
-- **Botões de ação**: Verde para ações positivas, como “Atualizar Dados” ou “Salvar Configurações”, e laranja para navegação, como “Ver Histórico”.
+- **Umidade**:
+  - Média
+  - Mediana
+  - Moda
+  - Desvio Padrão
+  - Assimetria
+  - Curtose
+  - Projeção Futura (próxima previsão)
+  - Probabilidade
+  - Distribuição
+
+Para visualizar gráficos interativos com os dados, acesse o painel do Grafana com as imagens abaixo.
+
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+
+## Instruções para Rodar o Projeto
+
+### 1. Rodar o Back-End
+1. Navegue até o diretório **Backend**.
+2. Execute os seguintes comandos:
+    ```bash
+    npm install
+    node server
+    ```
+
+### 2. Rodar o IoT
+1. Navegue até o diretório **IOT**.
+2. Execute os seguintes comandos:
+    ```bash
+    npm install
+    node app
+    ```
+
+### 3. Rodar o Front-End/Mobile
+1. Navegue até o diretório **Mobile**.
+2. Execute os seguintes comandos:
+    ```bash
+    npm install
+    npx expo start
+    ```
+
+## Link para a Aplicação Front-End
+
+Acesse a aplicação front-end em:
+
+[Airlytics Front-End](https://airlytcs-12qv7l8xj-pedromoreira27s-projects.vercel.app/)
+
+## Link para as Rotas da API
+
+Para visualizar todas as rotas da API, acesse o seguinte link:
+
+[Documentação das Rotas da API](https://airlytcs-backend.onrender.com/api-docs/)
+
+## Licença
+
+Este projeto está licenciado sob a MIT License - consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
