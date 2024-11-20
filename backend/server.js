@@ -1,33 +1,45 @@
+require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv'); // Importa dotenv
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
-dotenv.config(); // Carrega as variáveis de ambiente do .env
-
-const readingsRouter = require('./routes/routes'); // Ajuste o caminho conforme necessário
-const userRoutes = require('./routes/userRoutes'); // Importa as rotas de usuário
-const statisticsRoutes = require('./routes/statisticsRoutes'); // Ajuste conforme o caminho do seu arquivo
+const readingsRouter = require('./routes/routes'); 
+const userRoutes = require('./routes/userRoutes');
+const statisticsRoutes = require('./routes/statisticsRoutes');
 
 const app = express();
-const mongoDB = process.env.MONGODB_URI; // Carregando a URI do .env
+const mongoDB = process.env.MONGODB_URI;
+const porto = process.env.PORT || 5000;
 
-// Conectar ao MongoDB
+// Conexão com o MongoDB
 mongoose
   .connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Conexão com o MongoDB estabelecida!'))
-  .catch((err) => console.error('Erro ao conectar ao MongoDB:', err));
+  .then(() => console.log(`MongoDB conectado com sucesso!`))
+  .catch((err) => {
+    console.error('Erro ao conectar ao MongoDB:', err.message);
+    process.exit(1);
+  });
 
-app.use(bodyParser.json());
-app.use('/readings', readingsRouter); // Prefixo das rotas de leituras
-app.use('/users', userRoutes); // Prefixo das rotas de usuário
-app.use('/statistics', statisticsRoutes); // Prefixo das rotas de estatísticas
+app.use(express.json()); // Substituindo body-parser
+app.use('/readings', readingsRouter);
+app.use('/users', userRoutes);
+app.use('/statistics', statisticsRoutes);
+
+const swaggerDocument = YAML.load('./openapi.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { customCss: '.swagger-ui .topbar { display: none }' }));
 
 app.get('/', (req, res) => {
-  res.send('success');
+  res.send('Servidor funcionando!');
 });
 
-const porto = 5000; // Altere a porta para 5000
+// Middleware de erro global
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Ocorreu um erro no servidor!' });
+});
+
+// Inicializa o servidor
 app.listen(porto, () => {
-  console.log('Servidor em execução no porto: ' + porto);
+  console.log(`Servidor em execução no porto: ${porto}`);
 });
