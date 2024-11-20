@@ -10,7 +10,7 @@ const dbName = 'sensordata';
 
 async function calculateStatistics(req, res) {
     const client = new MongoClient(uri);
-    let responseSent = false; // Variável para controlar se a resposta foi enviada
+    let responseSent = false;
 
     try {
         await client.connect();
@@ -28,9 +28,16 @@ async function calculateStatistics(req, res) {
             }
         }
 
-        // Converte os dados para arrays de umidade e temperatura
+        // Converte os dados para arrays de umidade, temperatura e timestamps
         const humidity = data.map(item => item.humidity);
         const temperature = data.map(item => item.temperature);
+        const timestamps = data.map(item => new Date(item.timestamp).getTime());
+
+        // Função para normalizar timestamps
+        function normalizeTimestamps(timestamps) {
+            const baseTime = Math.min(...timestamps);
+            return timestamps.map(ts => (ts - baseTime) / 1000); // Converte para segundos a partir do primeiro timestamp
+        }
 
         // Função para calcular a moda
         function mode(arr) {
@@ -47,10 +54,39 @@ async function calculateStatistics(req, res) {
             return modeValue;
         }
 
-        // Função para determinar distribuição aproximada
-        function determineDistribution(arr) {
-            const skewness = calculateSkewness(arr);
-            return Math.abs(skewness) < 0.5 ? 'normal' : 'não normal';
+        // Função de regressão linear
+        function linearRegression(x, y) {
+            const n = x.length;
+            const meanX = math.mean(x);
+            const meanY = math.mean(y);
+
+            let numerator = 0;
+            let denominator = 0;
+
+            for (let i = 0; i < n; i++) {
+                numerator += (x[i] - meanX) * (y[i] - meanY);
+                denominator += Math.pow(x[i] - meanX, 2);
+            }
+
+            const slope = numerator / denominator;
+            const intercept = meanY - slope * meanX;
+
+            return { slope, intercept };
+        }
+
+        // Função para prever o próximo valor com base no modelo
+        function predictNextValue(timestamps, values) {
+            const normalizedTimestamps = normalizeTimestamps(timestamps); // Normaliza os timestamps
+            const regression = linearRegression(normalizedTimestamps, values);
+
+            const nextTimestampNormalized = Math.max(...normalizedTimestamps) + 1; // Incrementa 1 segundo no tempo normalizado
+            const nextValue = regression.slope * nextTimestampNormalized + regression.intercept;
+
+            return {
+                slope: regression.slope,
+                intercept: regression.intercept,
+                nextPrediction: parseFloat(nextValue.toFixed(2))
+            };
         }
 
         // Cálculos de estatísticas para umidade
@@ -61,7 +97,7 @@ async function calculateStatistics(req, res) {
             standardDeviation: math.std(humidity),
             skewness: calculateSkewness(humidity),
             kurtosis: calculateKurtosis(humidity),
-            futureProjection: linearRegression(humidity).slope,
+            futureProjection: predictNextValue(timestamps, humidity), // Projeção futura para umidade
             probability: humidity.filter(h => h > math.mean(humidity)).length / humidity.length,
             distribution: determineDistribution(humidity)
         };
@@ -74,7 +110,7 @@ async function calculateStatistics(req, res) {
             standardDeviation: math.std(temperature),
             skewness: calculateSkewness(temperature),
             kurtosis: calculateKurtosis(temperature),
-            futureProjection: linearRegression(temperature).slope,
+            futureProjection: predictNextValue(timestamps, temperature), // Projeção futura para temperatura
             probability: temperature.filter(t => t > math.mean(temperature)).length / temperature.length,
             distribution: determineDistribution(temperature)
         };
