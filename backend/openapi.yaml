@@ -23,9 +23,13 @@ paths:
                 humidity:
                   type: number
                   example: 50
+                  minimum: 0
+                  maximum: 100
                 temperature:
                   type: number
                   example: 22.5
+                  minimum: -50
+                  maximum: 60
                 mq_sensor_value:
                   type: number
                   example: 450
@@ -164,26 +168,6 @@ paths:
         '401':
           description: Credenciais inválidas.
 
-components:
-  schemas:
-    Reading:
-      type: object
-      properties:
-        humidity:
-          type: number
-          example: 50
-        temperature:
-          type: number
-          example: 22.5
-        mq_sensor_value:
-          type: number
-          example: 450
-        mq_voltage:
-          type: number
-          example: 2.5
-        timestamp:
-          type: string
-          format: date-time
   /statistics/calculate:
     post:
       summary: Calcular estatísticas
@@ -206,68 +190,69 @@ components:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  humidity:
-                    type: object
-                    properties:
-                      mean:
-                        type: number
-                      median:
-                        type: number
-                      mode:
-                        type: number
-                      standardDeviation:
-                        type: number
-                      skewness:
-                        type: number
-                      kurtosis:
-                        type: number
-                      futureProjection:
-                        type: object
-                        properties:
-                          slope:
-                            type: number
-                          intercept:
-                            type: number
-                          nextPrediction:
-                            type: number
-                      probability:
-                        type: number
-                      distribution:
-                        type: string
-                  temperature:
-                    type: object
-                    properties:
-                      mean:
-                        type: number
-                      median:
-                        type: number
-                      mode:
-                        type: number
-                      standardDeviation:
-                        type: number
-                      skewness:
-                        type: number
-                      kurtosis:
-                        type: number
-                      futureProjection:
-                        type: object
-                        properties:
-                          slope:
-                            type: number
-                          intercept:
-                            type: number
-                          nextPrediction:
-                            type: number
-                      probability:
-                        type: number
-                      distribution:
-                        type: string
-                  createdAt:
-                    type: string
-                    format: date-time
+                $ref: '#/components/schemas/Statistics'
         '404':
           description: Nenhuma estatística encontrada.
         '500':
           description: Erro ao buscar estatísticas.
+
+components:
+  schemas:
+    Reading:
+      type: object
+      properties:
+        humidity:
+          type: number
+          example: 50
+        temperature:
+          type: number
+          example: 22.5
+        mq_sensor_value:
+          type: number
+          example: 450
+        mq_voltage:
+          type: number
+          example: 2.5
+        timestamp:
+          type: string
+          format: date-time
+
+    Statistics:
+      type: object
+      properties:
+        humidity:
+          $ref: '#/components/schemas/StatisticDetails'
+        temperature:
+          $ref: '#/components/schemas/StatisticDetails'
+        createdAt:
+          type: string
+          format: date-time
+
+    StatisticDetails:
+      type: object
+      properties:
+        mean:
+          type: number
+        median:
+          type: number
+        mode:
+          type: number
+        standardDeviation:
+          type: number
+        skewness:
+          type: number
+        kurtosis:
+          type: number
+        futureProjection:
+          type: object
+          properties:
+            slope:
+              type: number
+            intercept:
+              type: number
+            nextPrediction:
+              type: number
+        probability:
+          type: number
+        distribution:
+          type: string
