@@ -1,8 +1,0 @@
-frontend-react-native/
-── src/                # Código-fonte
-   ├── components/     # Componentes reutilizáveis no app
-   ├── screens/        # "Páginas" ou telas do app
-   ├── services/       # Serviços para chamadas à API
-   ├── hooks/          # Hooks personalizados
-   ├── navigation/     # Configuração de navegação
-   └── App.js          # Componente principal da aplicação
