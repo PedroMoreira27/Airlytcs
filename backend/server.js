@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 
-const readingsRouter = require('./routes/routes'); 
+const readingsRouter = require('./routes/routes');
 const userRoutes = require('./routes/userRoutes');
 const statisticsRoutes = require('./routes/statisticsRoutes');
 
@@ -27,7 +27,13 @@ app.use('/users', userRoutes);
 app.use('/statistics', statisticsRoutes);
 
 const swaggerDocument = YAML.load('./openapi.yaml');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { customCss: '.swagger-ui .topbar { display: none }' }));
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, {
+    customCss: '.swagger-ui .topbar { display: none }',
+  }),
+);
 
 app.get('/', (req, res) => {
   res.send('Servidor funcionando!');
