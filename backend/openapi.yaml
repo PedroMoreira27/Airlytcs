@@ -10,42 +10,6 @@ servers:
     description: Servidor de produção
 paths:
   /readings:
-    post:
-      summary: Criar uma nova leitura
-      description: Cria uma nova entrada de leitura no banco de dados.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                humidity:
-                  type: number
-                  example: 50
-                temperature:
-                  type: number
-                  example: 22.5
-                mq_sensor_value:
-                  type: number
-                  example: 450
-                mq_voltage:
-                  type: number
-                  example: 2.5
-                timestamp:
-                  type: string
-                  format: date-time
-              required:
-                - humidity
-                - temperature
-                - mq_sensor_value
-                - mq_voltage
-      responses:
-        '201':
-          description: Leitura criada com sucesso.
-        '400':
-          description: Dados inválidos.
-
     get:
       summary: Obter todas as leituras
       responses:
@@ -76,40 +40,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reading'
-        '404':
-          description: Leitura não encontrada.
-
-    put:
-      summary: Atualizar uma leitura
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Reading'
-      responses:
-        '200':
-          description: Leitura atualizada com sucesso.
-        '400':
-          description: Dados inválidos.
-
-    delete:
-      summary: Deletar uma leitura
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Leitura deletada com sucesso.
         '404':
           description: Leitura não encontrada.
 
